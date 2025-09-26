@@ -144,13 +144,13 @@
             //keyloggerToolStripMenuItem.Text = "Keylogger";
             //keyloggerToolStripMenuItem.Click += keyloggerToolStripMenuItem_Click;
             //// 
-            //// remoteDesktopToolStripMenuItem
-            //// 
-            //remoteDesktopToolStripMenuItem.Name = "remoteDesktopToolStripMenuItem";
-            //remoteDesktopToolStripMenuItem.Size = new Size(161, 22);
-            //remoteDesktopToolStripMenuItem.Text = "Remote Desktop";
-            //remoteDesktopToolStripMenuItem.Click += remoteDesktopToolStripMenuItem_Click;
-            //// 
+            // remoteDesktopToolStripMenuItem
+            // 
+            remoteDesktopToolStripMenuItem.Name = "remoteDesktopToolStripMenuItem";
+            remoteDesktopToolStripMenuItem.Size = new Size(161, 22);
+            remoteDesktopToolStripMenuItem.Text = "Remote Desktop";
+            remoteDesktopToolStripMenuItem.Click += remoteDesktopToolStripMenuItem_Click;
+            // 
             // userSupportToolStripMenuItem
             // 
             userSupportToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { showMessageboxToolStripMenuItem });

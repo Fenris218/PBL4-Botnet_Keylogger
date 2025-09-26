@@ -61,7 +61,7 @@
             txtConsoleInput.Location = new Point(3, 391);
             txtConsoleInput.MaxLength = 200;
             txtConsoleInput.Name = "txtConsoleInput";
-            txtConsoleInput.Size = new Size(767, 20);
+            txtConsoleInput.Size = new Size(767, 16);
             txtConsoleInput.TabIndex = 0;
             txtConsoleInput.TextChanged += txtConsoleInput_TextChanged;
             txtConsoleInput.KeyDown += txtConsoleInput_KeyDown;
@@ -84,7 +84,7 @@
             // 
             // FrmRemoteShell
             // 
-            AutoScaleDimensions = new SizeF(120F, 120F);
+            AutoScaleDimensions = new SizeF(96F, 96F);
             AutoScaleMode = AutoScaleMode.Dpi;
             ClientSize = new Size(773, 408);
             Controls.Add(tableLayoutPanel);

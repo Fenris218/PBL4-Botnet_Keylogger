@@ -36,7 +36,7 @@ namespace Client
                 _userActivityDetection = new ActivityDetection(_connectClient);// module giám sát hoạt động của người dùng
                 _userActivityDetection.Start();
 
-                _connectClient.Connect(IPAddress.Parse("10.10.30.180"), 10000);
+                _connectClient.Connect(IPAddress.Parse("127.0.0.1"), 10000);
 
                 //Environment.Exit(0);
             }).Start();
@@ -44,6 +44,9 @@ namespace Client
 
         private void FrmMain_Load(object sender, EventArgs e)
         {
+            //this.WindowState = FormWindowState.Minimized; // Thu nhỏ
+            //this.ShowInTaskbar = false; // Không hiện trên taskbar
+            //this.Visible = false; // Ẩn luôn cửa sổ
             Run();
         }
 

