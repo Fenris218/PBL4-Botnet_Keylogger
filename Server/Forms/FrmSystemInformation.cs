@@ -51,7 +51,6 @@ namespace Server.Forms
             this.Invoke((MethodInvoker)this.Close);
         }
 
-        //Event SystemInformationEvent bắn → gọi SystemInformationChanged → update lại ListView bằng thông tin mới.
         private void SystemInformationChanged(object sender, List<Tuple<string, string>> infos)
         {
             lstSystem.Invoke(() =>
@@ -70,7 +69,7 @@ namespace Server.Forms
         private void FrmSystemInformation_Load(object sender, EventArgs e)
         {
             this.Text = WindowHelper.GetWindowTitle("System Information", _connectClient);
-            _sysInfoHandler.RefreshSystemInformation();//Gửi yêu cầu tới server (RefreshSystemInformation) để lấy dữ liệu hệ thống.
+            _sysInfoHandler.RefreshSystemInformation();
             AddBasicSystemInformation();
         }
 
@@ -123,7 +122,6 @@ namespace Server.Forms
             }
         }
 
-        
         private void refreshToolStripMenuItem_Click(object sender, EventArgs e)
         {
             lstSystem.Items.Clear();

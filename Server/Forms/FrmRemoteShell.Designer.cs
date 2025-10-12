@@ -63,7 +63,6 @@
             txtConsoleInput.Name = "txtConsoleInput";
             txtConsoleInput.Size = new Size(767, 16);
             txtConsoleInput.TabIndex = 0;
-            txtConsoleInput.TextChanged += txtConsoleInput_TextChanged;
             txtConsoleInput.KeyDown += txtConsoleInput_KeyDown;
             // 
             // tableLayoutPanel

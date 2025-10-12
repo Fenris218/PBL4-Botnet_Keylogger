@@ -130,10 +130,5 @@ namespace Server.Forms
                 txtConsoleInput.ScrollToCaret();
             }
         }
-
-        private void txtConsoleInput_TextChanged(object sender, EventArgs e)
-        {
-
-        }
     }
 }

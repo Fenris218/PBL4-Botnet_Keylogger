@@ -1,4 +1,4 @@
-﻿namespace Server.Forms
+﻿namespace Server
 {
     partial class FrmMain
     {
@@ -63,42 +63,43 @@
             // 
             // contextMenuStrip
             // 
+            contextMenuStrip.ImageScalingSize = new Size(20, 20);
             contextMenuStrip.Items.AddRange(new ToolStripItem[] { systemToolStripMenuItem, monitoringToolStripMenuItem, userSupportToolStripMenuItem, clientManagementToolStripMenuItem });
             contextMenuStrip.Name = "ctxtMenu";
-            contextMenuStrip.Size = new Size(180, 92);
+            contextMenuStrip.Size = new Size(209, 100);
             // 
             // systemToolStripMenuItem
             // 
             systemToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { systemInformationToolStripMenuItem, fileManagerToolStripMenuItem, taskManagerToolStripMenuItem, remoteShellToolStripMenuItem, actionsToolStripMenuItem });
             systemToolStripMenuItem.Name = "systemToolStripMenuItem";
-            systemToolStripMenuItem.Size = new Size(179, 22);
+            systemToolStripMenuItem.Size = new Size(208, 24);
             systemToolStripMenuItem.Text = "System";
             // 
             // systemInformationToolStripMenuItem
             // 
             systemInformationToolStripMenuItem.Name = "systemInformationToolStripMenuItem";
-            systemInformationToolStripMenuItem.Size = new Size(180, 22);
+            systemInformationToolStripMenuItem.Size = new Size(221, 26);
             systemInformationToolStripMenuItem.Text = "System Information";
             systemInformationToolStripMenuItem.Click += systemInformationToolStripMenuItem_Click;
             // 
-            //// fileManagerToolStripMenuItem
-            //// 
-            //fileManagerToolStripMenuItem.Name = "fileManagerToolStripMenuItem";
-            //fileManagerToolStripMenuItem.Size = new Size(180, 22);
-            //fileManagerToolStripMenuItem.Text = "File Manager";
-            //fileManagerToolStripMenuItem.Click += fileManagerToolStripMenuItem_Click;
-            //// 
-            //// taskManagerToolStripMenuItem
-            //// 
-            //taskManagerToolStripMenuItem.Name = "taskManagerToolStripMenuItem";
-            //taskManagerToolStripMenuItem.Size = new Size(180, 22);
-            //taskManagerToolStripMenuItem.Text = "Task Manager";
-            //taskManagerToolStripMenuItem.Click += taskManagerToolStripMenuItem_Click;
-            //// 
+            // fileManagerToolStripMenuItem
+            // 
+            fileManagerToolStripMenuItem.Name = "fileManagerToolStripMenuItem";
+            fileManagerToolStripMenuItem.Size = new Size(221, 26);
+            fileManagerToolStripMenuItem.Text = "File Manager";
+            fileManagerToolStripMenuItem.Click += fileManagerToolStripMenuItem_Click;
+            // 
+            // taskManagerToolStripMenuItem
+            // 
+            taskManagerToolStripMenuItem.Name = "taskManagerToolStripMenuItem";
+            taskManagerToolStripMenuItem.Size = new Size(221, 26);
+            taskManagerToolStripMenuItem.Text = "Task Manager";
+            taskManagerToolStripMenuItem.Click += taskManagerToolStripMenuItem_Click;
+            // 
             // remoteShellToolStripMenuItem
             // 
             remoteShellToolStripMenuItem.Name = "remoteShellToolStripMenuItem";
-            remoteShellToolStripMenuItem.Size = new Size(180, 22);
+            remoteShellToolStripMenuItem.Size = new Size(221, 26);
             remoteShellToolStripMenuItem.Text = "Remote Shell";
             remoteShellToolStripMenuItem.Click += remoteShellToolStripMenuItem_Click;
             // 
@@ -106,27 +107,27 @@
             // 
             actionsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { shutdownToolStripMenuItem, restartToolStripMenuItem, standbyToolStripMenuItem });
             actionsToolStripMenuItem.Name = "actionsToolStripMenuItem";
-            actionsToolStripMenuItem.Size = new Size(180, 22);
+            actionsToolStripMenuItem.Size = new Size(221, 26);
             actionsToolStripMenuItem.Text = "Actions";
             // 
             // shutdownToolStripMenuItem
             // 
             shutdownToolStripMenuItem.Name = "shutdownToolStripMenuItem";
-            shutdownToolStripMenuItem.Size = new Size(180, 22);
+            shutdownToolStripMenuItem.Size = new Size(158, 26);
             shutdownToolStripMenuItem.Text = "Shutdown";
             shutdownToolStripMenuItem.Click += shutdownToolStripMenuItem_Click;
             // 
             // restartToolStripMenuItem
             // 
             restartToolStripMenuItem.Name = "restartToolStripMenuItem";
-            restartToolStripMenuItem.Size = new Size(180, 22);
+            restartToolStripMenuItem.Size = new Size(158, 26);
             restartToolStripMenuItem.Text = "Restart";
             restartToolStripMenuItem.Click += restartToolStripMenuItem_Click;
             // 
             // standbyToolStripMenuItem
             // 
             standbyToolStripMenuItem.Name = "standbyToolStripMenuItem";
-            standbyToolStripMenuItem.Size = new Size(180, 22);
+            standbyToolStripMenuItem.Size = new Size(158, 26);
             standbyToolStripMenuItem.Text = "Standby";
             standbyToolStripMenuItem.Click += standbyToolStripMenuItem_Click;
             // 
@@ -134,20 +135,20 @@
             // 
             monitoringToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { keyloggerToolStripMenuItem, remoteDesktopToolStripMenuItem });
             monitoringToolStripMenuItem.Name = "monitoringToolStripMenuItem";
-            monitoringToolStripMenuItem.Size = new Size(179, 22);
+            monitoringToolStripMenuItem.Size = new Size(208, 24);
             monitoringToolStripMenuItem.Text = "Monitoring";
             // 
-            //// keyloggerToolStripMenuItem
-            //// 
-            //keyloggerToolStripMenuItem.Name = "keyloggerToolStripMenuItem";
-            //keyloggerToolStripMenuItem.Size = new Size(161, 22);
-            //keyloggerToolStripMenuItem.Text = "Keylogger";
-            //keyloggerToolStripMenuItem.Click += keyloggerToolStripMenuItem_Click;
-            //// 
+            // keyloggerToolStripMenuItem
+            // 
+            keyloggerToolStripMenuItem.Name = "keyloggerToolStripMenuItem";
+            keyloggerToolStripMenuItem.Size = new Size(203, 26);
+            keyloggerToolStripMenuItem.Text = "Keylogger";
+            keyloggerToolStripMenuItem.Click += keyloggerToolStripMenuItem_Click;
+            // 
             // remoteDesktopToolStripMenuItem
             // 
             remoteDesktopToolStripMenuItem.Name = "remoteDesktopToolStripMenuItem";
-            remoteDesktopToolStripMenuItem.Size = new Size(161, 22);
+            remoteDesktopToolStripMenuItem.Size = new Size(203, 26);
             remoteDesktopToolStripMenuItem.Text = "Remote Desktop";
             remoteDesktopToolStripMenuItem.Click += remoteDesktopToolStripMenuItem_Click;
             // 
@@ -155,41 +156,41 @@
             // 
             userSupportToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { showMessageboxToolStripMenuItem });
             userSupportToolStripMenuItem.Name = "userSupportToolStripMenuItem";
-            userSupportToolStripMenuItem.Size = new Size(179, 22);
+            userSupportToolStripMenuItem.Size = new Size(208, 24);
             userSupportToolStripMenuItem.Text = "User Support";
             // 
-            //// showMessageboxToolStripMenuItem
-            //// 
-            //showMessageboxToolStripMenuItem.Name = "showMessageboxToolStripMenuItem";
-            //showMessageboxToolStripMenuItem.Size = new Size(172, 22);
-            //showMessageboxToolStripMenuItem.Text = "Show Messagebox";
-            //showMessageboxToolStripMenuItem.Click += showMessageboxToolStripMenuItem_Click;
-            //// 
+            // showMessageboxToolStripMenuItem
+            // 
+            showMessageboxToolStripMenuItem.Name = "showMessageboxToolStripMenuItem";
+            showMessageboxToolStripMenuItem.Size = new Size(215, 26);
+            showMessageboxToolStripMenuItem.Text = "Show Messagebox";
+            showMessageboxToolStripMenuItem.Click += showMessageboxToolStripMenuItem_Click;
+            // 
             // clientManagementToolStripMenuItem
             // 
             clientManagementToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { elevateClientPermissionsToolStripMenuItem, reconnectToolStripMenuItem, disconnectToolStripMenuItem });
             clientManagementToolStripMenuItem.Name = "clientManagementToolStripMenuItem";
-            clientManagementToolStripMenuItem.Size = new Size(179, 22);
+            clientManagementToolStripMenuItem.Size = new Size(208, 24);
             clientManagementToolStripMenuItem.Text = "Client Management";
             // 
             // elevateClientPermissionsToolStripMenuItem
             // 
             elevateClientPermissionsToolStripMenuItem.Name = "elevateClientPermissionsToolStripMenuItem";
-            elevateClientPermissionsToolStripMenuItem.Size = new Size(211, 22);
+            elevateClientPermissionsToolStripMenuItem.Size = new Size(262, 26);
             elevateClientPermissionsToolStripMenuItem.Text = "Elevate Client Permissions";
             elevateClientPermissionsToolStripMenuItem.Click += elevateClientPermissionsToolStripMenuItem_Click;
             // 
             // reconnectToolStripMenuItem
             // 
             reconnectToolStripMenuItem.Name = "reconnectToolStripMenuItem";
-            reconnectToolStripMenuItem.Size = new Size(211, 22);
+            reconnectToolStripMenuItem.Size = new Size(262, 26);
             reconnectToolStripMenuItem.Text = "Reconnect";
             reconnectToolStripMenuItem.Click += reconnectToolStripMenuItem_Click;
             // 
             // disconnectToolStripMenuItem
             // 
             disconnectToolStripMenuItem.Name = "disconnectToolStripMenuItem";
-            disconnectToolStripMenuItem.Size = new Size(211, 22);
+            disconnectToolStripMenuItem.Size = new Size(262, 26);
             disconnectToolStripMenuItem.Text = "Disconnect";
             disconnectToolStripMenuItem.Click += disconnectToolStripMenuItem_Click;
             // 
@@ -199,10 +200,11 @@
             lstClients.ContextMenuStrip = contextMenuStrip;
             lstClients.Dock = DockStyle.Fill;
             lstClients.FullRowSelect = true;
-            lstClients.Location = new Point(3, 3);
+            lstClients.Location = new Point(4, 4);
+            lstClients.Margin = new Padding(4, 4, 4, 4);
             lstClients.Name = "lstClients";
             lstClients.ShowItemToolTips = true;
-            lstClients.Size = new Size(1018, 431);
+            lstClients.Size = new Size(1272, 538);
             lstClients.TabIndex = 0;
             lstClients.UseCompatibleStateImageBehavior = false;
             lstClients.View = View.Details;
@@ -251,21 +253,23 @@
             tableLayoutPanel.Dock = DockStyle.Fill;
             tableLayoutPanel.GrowStyle = TableLayoutPanelGrowStyle.FixedSize;
             tableLayoutPanel.Location = new Point(0, 0);
+            tableLayoutPanel.Margin = new Padding(4, 4, 4, 4);
             tableLayoutPanel.Name = "tableLayoutPanel";
             tableLayoutPanel.RowCount = 1;
-            tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 25F));
+            tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 31F));
             tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 22F));
-            tableLayoutPanel.Size = new Size(1024, 437);
+            tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 28F));
+            tableLayoutPanel.Size = new Size(1280, 546);
             tableLayoutPanel.TabIndex = 6;
             // 
             // FrmMain
             // 
-            AutoScaleDimensions = new SizeF(96F, 96F);
+            AutoScaleDimensions = new SizeF(120F, 120F);
             AutoScaleMode = AutoScaleMode.Dpi;
-            ClientSize = new Size(1024, 437);
+            ClientSize = new Size(1280, 546);
             Controls.Add(tableLayoutPanel);
-            MinimumSize = new Size(680, 415);
+            Margin = new Padding(4, 4, 4, 4);
+            MinimumSize = new Size(846, 507);
             Name = "FrmMain";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Server";

