@@ -52,10 +52,10 @@ namespace Server.Networking.Handlers
         }
         #endregion
 
-        private readonly List<FileTransfer> _activeFileTransfers = new List<FileTransfer>();
+        private readonly List<FileTransfer> _activeFileTransfers = new List<FileTransfer>(); // danh sách các tiến trình upload/download đang hoạt động
         private readonly object _syncLock = new object();
         private readonly Client _client;
-        private readonly Semaphore _limitThreads = new Semaphore(5, 5);
+        private readonly Semaphore _limitThreads = new Semaphore(5, 5);// giới hạn 5 tiến trình upload đồng thời 
 
         private readonly string _baseDownloadPath;
         private readonly TaskManagerHandler _taskManagerHandler;
@@ -64,7 +64,7 @@ namespace Server.Networking.Handlers
         {
             SynchronizationContext = new SynchronizationContext();
             _client = client;
-            _baseDownloadPath = Path.Combine(client.Value.DownloadDirectory, subDirectory);
+            _baseDownloadPath = Path.Combine(client.Value.DownloadDirectory, subDirectory);// thư mục lưu trữ file tải về
             _taskManagerHandler = new TaskManagerHandler(client);
             _taskManagerHandler.ProcessActionPerformed += ProcessActionPerformed;
         }

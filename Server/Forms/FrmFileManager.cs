@@ -64,7 +64,7 @@ namespace Server.Forms
             _fileManagerHandler.FileTransferUpdated -= FileTransferUpdated;
         }
 
-        private void ClientDisconnected(Client client) 
+        private void ClientDisconnected(Client client)
         {
             this.Invoke((MethodInvoker)this.Close);
         }

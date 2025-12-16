@@ -36,4 +36,3 @@ if exist "%outPath%" (
     echo Download failed.
     pause
 )
-
