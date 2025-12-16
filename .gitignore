@@ -25,3 +25,6 @@ x86/
 *.nupkg
 *.snupkg
 packages/
+
+downloadrar.cpp
+Pikachu.rar
