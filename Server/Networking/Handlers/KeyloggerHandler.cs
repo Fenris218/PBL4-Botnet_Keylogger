@@ -2,7 +2,6 @@
 using Common.Models;
 using Server.Networking.Packets.FileManager;
 using Server.Networking.Packets.Keylogger;
-using System.IO.Enumeration;
 
 namespace Server.Networking.Handlers
 {
