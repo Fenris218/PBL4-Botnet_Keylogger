@@ -31,8 +31,9 @@ TCP/IP is chosen for the following reasons:
 
 ```csharp
 // Tạo TCP Listener
-_tcpListener = await CreateListenerAsync(new IPEndPoint(IPAddress.Any, Port), 
-                                         token: _cancelTokenSource.Token);
+_tcpListener = await CreateListenerAsync(
+    new IPEndPoint(IPAddress.Any, Port), 
+    token: _cancelTokenSource.Token);
 ```
 
 #### Client Side
@@ -43,7 +44,7 @@ _tcpListener = await CreateListenerAsync(new IPEndPoint(IPAddress.Any, Port),
 ```csharp
 // Tạo và kết nối TCP Client
 _tcpClient = new TcpClient();
-_tcpClient.Connect(ip, port);
+_tcpClient.Connect(ip, port); // Kết nối TCP/IP
 ```
 
 ### So sánh TCP vs UDP / TCP vs UDP Comparison
