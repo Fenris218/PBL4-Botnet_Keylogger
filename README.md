@@ -86,18 +86,24 @@ Mô hình TCP/IP gồm 4 tầng chính / TCP/IP model consists of 4 main layers:
 - Quản lý kết nối giữa Client và Server
 - Files: `Client/Networking/Client.cs`, `Server/Networking/ListenServer.cs`
 
-Uses **TCP** to ensure reliable data transmission
+**Transport Layer:**
+- Uses **TCP** to ensure reliable data transmission
+- Manages connection between Client and Server
+- Files: `Client/Networking/Client.cs`, `Server/Networking/ListenServer.cs`
 
 #### 3. Tầng Mạng (Internet Layer)
 - Sử dụng **IP** để định tuyến gói tin giữa Client và Server
 - Xác định địa chỉ IP của Client và Server
 
-Uses **IP** for routing packets between Client and Server
+**Internet Layer:**
+- Uses **IP** for routing packets between Client and Server
+- Identifies IP addresses of Client and Server
 
 #### 4. Tầng Liên kết dữ liệu (Network Access Layer)
 - Xử lý truyền dữ liệu vật lý qua mạng (Ethernet, WiFi, etc.)
 
-Handles physical data transmission over network (Ethernet, WiFi, etc.)
+**Network Access Layer:**
+- Handles physical data transmission over network (Ethernet, WiFi, etc.)
 
 ---
 
