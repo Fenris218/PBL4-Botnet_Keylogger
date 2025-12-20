@@ -9,6 +9,10 @@ using System.Net;
 
 namespace Server.Networking
 {
+    /// <summary>
+    /// Server lắng nghe và chấp nhận kết nối TCP/IP từ các Client
+    /// Server listens and accepts TCP/IP connections from Clients
+    /// </summary>
     public class ListenServer
     {
         public int Port { get; private set; } //cổng sever lắng nghe
@@ -18,7 +22,7 @@ namespace Server.Networking
             get { return _clients.Where(c => c != null && c.Identified).ToList(); }
         }
         private readonly CancellationTokenSource _cancelTokenSource = new();
-        private IConnectionListener? _tcpListener; //object thật sự lắng nghe kết nối TCP
+        private IConnectionListener? _tcpListener; //TCP Listener - lắng nghe kết nối TCP/IP
         private readonly ConcurrentHashSet<Client> _clients = new();// tập các clinet đang trong danh sách
 
         #region Event
@@ -61,6 +65,8 @@ namespace Server.Networking
 
         public async Task RunAsync()
         {
+            // Tạo TCP Listener để lắng nghe kết nối TCP/IP từ client
+            // Create TCP Listener to listen for TCP/IP connections from clients
             _tcpListener = await CreateListenerAsync(new IPEndPoint(IPAddress.Any, Port), token: _cancelTokenSource.Token);//Tạo TCP Listener
             Listening = true;
             while (!_cancelTokenSource.Token.IsCancellationRequested)//Vòng lặp chấp nhận kết nối
@@ -127,7 +133,8 @@ namespace Server.Networking
             }
         }
 
-        //là một helper method để tạo ra một listener TCP dựa trên Kestrel Transport (của ASP.NET Core).
+        //Tạo TCP Listener sử dụng Kestrel Transport (ASP.NET Core) cho kết nối TCP/IP
+        //Create TCP Listener using Kestrel Transport (ASP.NET Core) for TCP/IP connections
         public async Task<IConnectionListener> CreateListenerAsync(IPEndPoint endPoint, SocketTransportOptions? options = null, ILoggerFactory? loggerFactory = null, CancellationToken token = default)
         {
             options ??= new SocketTransportOptions();

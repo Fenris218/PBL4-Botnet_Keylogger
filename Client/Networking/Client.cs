@@ -13,12 +13,16 @@ using System.Threading.Tasks.Dataflow;
 
 namespace Client.Networking
 {
+    /// <summary>
+    /// Client kết nối đến Server sử dụng giao thức TCP/IP
+    /// Connects to Server using TCP/IP protocol
+    /// </summary>
     public class Client : IDisposable
     {
         public bool Connected { get; private set; }
         public SingleInstanceMutex ApplicationMutex;
 
-        private TcpClient _tcpClient;
+        private TcpClient _tcpClient; // TCP Client để thiết lập kết nối TCP/IP
         private ProcessStream _stream;
         private ClientHandler _handler;
         private readonly CancellationTokenSource cancellationSource = new();
@@ -72,8 +76,10 @@ namespace Client.Networking
                     TcpClient handle = null;
                     try
                     {
+                        // Tạo TCP Client và thiết lập kết nối TCP/IP đến server
+                        // Create TCP Client and establish TCP/IP connection to server
                         _tcpClient = new TcpClient();
-                        _tcpClient.Connect(ip, port);
+                        _tcpClient.Connect(ip, port); // Kết nối TCP/IP
 
                         if (_tcpClient.Connected)
                         {
