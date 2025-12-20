@@ -62,6 +62,49 @@ _tcpClient.Connect(ip, port); // Kết nối TCP/IP
 
 **Conclusion:** TCP/IP is more suitable for Botnet Keylogger application because it needs to ensure keylog data is transmitted completely and accurately.
 
+### Các tầng trong mô hình TCP/IP / TCP/IP Model Layers
+
+Mô hình TCP/IP gồm 4 tầng chính / TCP/IP model consists of 4 main layers:
+
+#### 1. Tầng Ứng dụng (Application Layer)
+**Chức năng của dự án hoạt động ở tầng này:**
+- ✅ **Remote Desktop**: Chụp màn hình, mã hóa hình ảnh, gửi/nhận dữ liệu hình ảnh
+- ✅ **Keylogger**: Thu thập và truyền dữ liệu phím nhấn
+- ✅ **File Manager**: Quản lý và truyền file
+- ✅ **Remote Shell**: Thực thi lệnh từ xa
+- ✅ **Mouse/Keyboard Control**: Điều khiển chuột và bàn phím từ xa
+
+**Project features operating at this layer:**
+- ✅ **Remote Desktop**: Screen capture, image encoding, sending/receiving image data
+- ✅ **Keylogger**: Collecting and transmitting keystroke data
+- ✅ **File Manager**: Managing and transferring files
+- ✅ **Remote Shell**: Remote command execution
+- ✅ **Mouse/Keyboard Control**: Remote mouse and keyboard control
+
+#### 2. Tầng Giao vận (Transport Layer)
+- Sử dụng **TCP** để đảm bảo truyền dữ liệu tin cậy
+- Quản lý kết nối giữa Client và Server
+- Files: `Client/Networking/Client.cs`, `Server/Networking/ListenServer.cs`
+
+Uses **TCP** to ensure reliable data transmission
+
+#### 3. Tầng Mạng (Internet Layer)
+- Sử dụng **IP** để định tuyến gói tin giữa Client và Server
+- Xác định địa chỉ IP của Client và Server
+
+Uses **IP** for routing packets between Client and Server
+
+#### 4. Tầng Liên kết dữ liệu (Network Access Layer)
+- Xử lý truyền dữ liệu vật lý qua mạng (Ethernet, WiFi, etc.)
+
+Handles physical data transmission over network (Ethernet, WiFi, etc.)
+
+---
+
+**Lưu ý quan trọng:** Chức năng Remote Desktop hoạt động ở **Tầng Ứng dụng (Application Layer)** vì nó xử lý logic nghiệp vụ như chụp màn hình, mã hóa/giải mã hình ảnh, và điều khiển thiết bị đầu vào. Các tầng bên dưới (Transport, Internet, Network Access) chỉ đảm nhiệm việc truyền tải dữ liệu một cách tin cậy.
+
+**Important Note:** The Remote Desktop function operates at the **Application Layer** because it handles business logic such as screen capture, image encoding/decoding, and input device control. The lower layers (Transport, Internet, Network Access) are only responsible for reliably transmitting the data.
+
 ## Cấu trúc dự án / Project Structure
 
 - **Client**: Ứng dụng client (keylogger) chạy trên máy mục tiêu
