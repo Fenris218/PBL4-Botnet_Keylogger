@@ -118,7 +118,10 @@ namespace Server.Networking
                     // 2. Các packet có thể được xử lý SONG SONG (concurrent)
                     // 3. Thứ tự xử lý KHÔNG được đảm bảo (packet sau có thể xử lý xong trước packet trước)
                     // 
-                    // Lưu ý: Nếu cần đảm bảo thứ tự xử lý, nên thay bằng: await ClientHandler.HandlePackets(id, data);
+                    // Giải pháp nếu cần đảm bảo thứ tự:
+                    // - Option 1: await ClientHandler.HandlePackets(id, data); (xử lý tuần tự, chậm hơn)
+                    // - Option 2: Implement hàng đợi có thứ tự với ActionBlock (tương tự packetQueue cho sending)
+                    // - Option 3: Chỉ apply thứ tự cho một số loại packet quan trọng
                     _ = ClientHandler.HandlePackets(id, data);
                 }
                 catch (Exception)
