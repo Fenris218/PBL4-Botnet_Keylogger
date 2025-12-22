@@ -38,7 +38,7 @@ Mỗi client có 2 luồng xử lý song song:
 
 #### 2.1. Luồng nhận packet (Receiving Thread)
 ```
-Client.StartConnectionAsync() (line 91-108):
+Client.StartConnectionAsync() (line 104-132):
 ┌─────────────────────────────────────────────┐
 │ while (không bị ngắt kết nối)               │
 │ {                                           │
@@ -50,7 +50,7 @@ Client.StartConnectionAsync() (line 91-108):
 
 **Chi tiết:**
 - **Line 112**: `await GetNextPacketAsync()` - Đọc packet tiếp theo từ stream (blocking I/O)
-- **Line 122**: `_ = ClientHandler.HandlePackets(id, data)` - Gọi handler **KHÔNG chờ đợi** (fire-and-forget)
+- **Line 125**: `_ = ClientHandler.HandlePackets(id, data)` - Gọi handler **KHÔNG chờ đợi** (fire-and-forget)
   - Điều này có nghĩa là việc xử lý packet không làm chậm việc đọc packet tiếp theo
   - Packet được xử lý song song trong task riêng
 
@@ -197,7 +197,7 @@ Trong khi đó, các task handler xử lý song song:
 5. **Separation of concerns**: Mỗi client độc lập, lỗi ở một client không ảnh hưởng client khác
 
 ### Nhược điểm/Vấn đề tiềm ẩn:
-1. **Thứ tự packet không được đảm bảo**: Do `HandlePackets` được gọi fire-and-forget (line 122, Client.cs), nếu packet sau xử lý nhanh hơn packet trước, chúng có thể được xử lý không theo thứ tự. Nếu thứ tự quan trọng, cần thay đổi thành `await ClientHandler.HandlePackets(id, data)` hoặc sử dụng hàng đợi xử lý có thứ tự.
+1. **Thứ tự packet không được đảm bảo**: Do `HandlePackets` được gọi fire-and-forget (line 125, Client.cs), nếu packet sau xử lý nhanh hơn packet trước, chúng có thể được xử lý không theo thứ tự. Nếu thứ tự quan trọng, cần thay đổi thành `await ClientHandler.HandlePackets(id, data)` hoặc sử dụng hàng đợi xử lý có thứ tự.
 2. **Quản lý tài nguyên**: Mỗi client tiêu tốn một task/thread, cần giới hạn số lượng client nếu tài nguyên hệ thống có hạn
 
 ## Cách hoạt động cụ thể

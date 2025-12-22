@@ -36,7 +36,7 @@ All tasks run in parallel, independent of each other
 ```csharp
 while (connected) {
     (id, data) = await GetNextPacketAsync();      // Sequential read (line 112)
-    _ = ClientHandler.HandlePackets(id, data);    // Parallel processing (line 122, no await)
+    _ = ClientHandler.HandlePackets(id, data);    // Parallel processing (line 125, no await)
 }
 ```
 
@@ -66,7 +66,7 @@ Time T3: All send packets ──► All tasks process packets in parallel
 
 ## Potential Issues
 
-⚠️ **Order not guaranteed**: Packets may be processed out of order due to fire-and-forget handling (line 122, Client.cs). If order matters, use `await` or implement an ordered processing queue.  
+⚠️ **Order not guaranteed**: Packets may be processed out of order due to fire-and-forget handling (line 125, Client.cs). If order matters, use `await` or implement an ordered processing queue.  
 ⚠️ **Resource consumption**: Each client consumes a task/thread  
 
 ## Conclusion
