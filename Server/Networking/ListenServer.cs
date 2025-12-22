@@ -63,11 +63,16 @@ namespace Server.Networking
         {
             _tcpListener = await CreateListenerAsync(new IPEndPoint(IPAddress.Any, Port), token: _cancelTokenSource.Token);//Tạo TCP Listener
             Listening = true;
+            
+            // Vòng lặp chính: Chấp nhận kết nối từ nhiều client đồng thời
+            // Đây là điểm bắt đầu của kiến trúc đa luồng (multi-threaded)
             while (!_cancelTokenSource.Token.IsCancellationRequested)//Vòng lặp chấp nhận kết nối
             {
                 ConnectionContext connection;
                 try
                 {
+                    // Chờ và chấp nhận kết nối TCP mới (blocking call)
+                    // Khi có client mới kết nối, vòng lặp tiếp tục xử lý và chấp nhận client tiếp theo
                     var acceptedConnection = await _tcpListener.AcceptAsync(_cancelTokenSource.Token);
                     if (acceptedConnection is null)
                     {
@@ -83,6 +88,8 @@ namespace Server.Networking
 
                 var client = new Client(connection, this);// tạo client mới từ kết nối vừa chấp nhận
 
+                // Thêm client vào danh sách thread-safe (ConcurrentHashSet)
+                // Nhiều thread có thể thêm/xóa client đồng thời mà không gây race condition
                 _clients.Add(client);
 
                 client.Disconnected += client =>
@@ -90,6 +97,8 @@ namespace Server.Networking
                     _clients.TryRemove(client);
                     OnClientDisconnected(client);
                 };
+                
+                // Timeout mechanism: Tự động ngắt kết nối client nếu không identified trong 15 giây
                 _ = Task.Delay(new TimeSpan(0, 0, 15)).ContinueWith(o =>
                 {
                     try
@@ -104,6 +113,12 @@ namespace Server.Networking
 
                     }
                 });
+                
+                // *** ĐIỂM QUAN TRỌNG: Xử lý đa luồng (Multi-threading) ***
+                // Task.Run tạo một task mới để xử lý client này
+                // Mỗi client chạy trong task riêng biệt, KHÔNG chờ đợi (fire-and-forget)
+                // Điều này cho phép vòng lặp chính tiếp tục chấp nhận client mới ngay lập tức
+                // Kết quả: Server có thể xử lý NHIỀU client ĐỒNG THỜI (concurrent)
                 _ = Task.Run(client.StartConnectionAsync);
             }
 

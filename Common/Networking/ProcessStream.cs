@@ -7,6 +7,10 @@
 
         public Stream BaseStream { get; set; } //streamm thực tế
 
+        // *** SemaphoreSlim: Đảm bảo thread-safety ***
+        // Chỉ cho phép 1 thread đọc/ghi stream tại một thời điểm
+        // Điều này quan trọng vì nhiều packet handler có thể cố gắng truy cập stream đồng thời
+        // SemaphoreSlim(1, 1) = binary semaphore (giống mutex nhưng nhẹ hơn)
         public SemaphoreSlim Lock { get; } = new SemaphoreSlim(1, 1); //để đảm bảo thread-safe khi đọc/ghi, tránh nhiều thread truy cập cùng lúc
 
         public override bool CanRead => BaseStream.CanRead;

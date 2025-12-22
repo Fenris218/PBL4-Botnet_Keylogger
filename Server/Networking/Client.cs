@@ -75,8 +75,16 @@ namespace Server.Networking
 
             this.server = server;
 
+            // *** Thiết lập hàng đợi gửi packet thread-safe ***
+            // Sử dụng TPL Dataflow để đảm bảo packet gửi đi theo đúng thứ tự
             var linkOptions = new DataflowLinkOptions { PropagateCompletion = true };
+            
+            // EnsureOrdered = true: Đảm bảo packet được xử lý theo thứ tự vào hàng đợi
+            // Điều này quan trọng để tránh packet sau được gửi trước packet trước
             var blockOptions = new ExecutionDataflowBlockOptions { CancellationToken = cancellationSource.Token, EnsureOrdered = true };
+            
+            // ActionBlock: Xử lý các packet từ hàng đợi một cách tuần tự
+            // Mỗi packet được gửi đi sau khi packet trước đã được gửi xong
             var sendPacketBlock = new ActionBlock<IRequestPacket>(packet =>
             {
                 Thread.Sleep(2);
@@ -84,17 +92,33 @@ namespace Server.Networking
                     SendPacket(packet);
             }, blockOptions);
 
+            // BufferBlock: Hàng đợi thread-safe để lưu trữ packet cần gửi
+            // Nhiều thread có thể thêm packet vào hàng đợi đồng thời
             packetQueue = new BufferBlock<IRequestPacket>(blockOptions);
             _ = packetQueue.LinkTo(sendPacketBlock, linkOptions);
         }
 
+        // *** Vòng lặp chính xử lý packet từ client ***
+        // Mỗi client có task riêng chạy hàm này
+        // Nhiều client = nhiều task chạy song song
         public async Task StartConnectionAsync()//Nếu còn kết nối thì đợi và xử lý gói tin
         {
             while (!cancellationSource.IsCancellationRequested && !connectionContext.ConnectionClosed.IsCancellationRequested)
             {
                 try
                 {
+                    // Đọc packet tiếp theo từ network stream (blocking I/O)
+                    // Trong khi chờ packet, task này bị block nhưng KHÔNG ảnh hưởng đến client khác
                     (var id, var data) = await GetNextPacketAsync();
+                    
+                    // *** ĐIỂM QUAN TRỌNG: Fire-and-forget packet handling ***
+                    // Gọi HandlePackets KHÔNG chờ đợi (no await)
+                    // Điều này có nghĩa:
+                    // 1. Việc xử lý packet không làm chậm việc đọc packet tiếp theo
+                    // 2. Các packet có thể được xử lý SONG SONG (concurrent)
+                    // 3. Thứ tự xử lý KHÔNG được đảm bảo (packet sau có thể xử lý xong trước packet trước)
+                    // 
+                    // Lưu ý: Nếu cần đảm bảo thứ tự xử lý, nên thay bằng: await ClientHandler.HandlePackets(id, data);
                     _ = ClientHandler.HandlePackets(id, data);
                 }
                 catch (Exception)

@@ -38,10 +38,15 @@ namespace Server.Networking
             KeyloggerHandler = new(_client);
         }
 
+        // *** Xử lý logic packet dựa trên packet ID ***
+        // Hàm này được gọi từ nhiều task đồng thời (một task cho mỗi packet)
+        // Do đó các packet từ cùng một client có thể được xử lý song song
         public async Task HandlePackets(int id, byte[] data)
         {
             try
             {
+                // Route packet đến handler tương ứng dựa trên ID
+                // Mỗi handler xử lý độc lập, không ảnh hưởng lẫn nhau
                 switch (id)
                 {
                     case 0x00:

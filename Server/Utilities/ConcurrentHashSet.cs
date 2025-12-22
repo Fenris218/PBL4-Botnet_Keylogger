@@ -4,6 +4,14 @@ using System.Diagnostics;
 
 namespace Server.Utilities
 {
+    // *** ConcurrentHashSet: Thread-safe HashSet implementation ***
+    // Được sử dụng để quản lý danh sách client đang kết nối
+    // Cho phép nhiều thread thêm/xóa client đồng thời mà không cần lock thủ công
+    // 
+    // Cơ chế hoạt động:
+    // - Sử dụng lock striping: Chia dữ liệu thành nhiều phần, mỗi phần có lock riêng
+    // - Nhiều thread có thể thao tác trên các phần khác nhau đồng thời
+    // - Giảm contention so với việc lock toàn bộ collection
     public class ConcurrentHashSet<T> : IReadOnlyCollection<T>, ICollection<T>
     {
         private const int DefaultCapacity = 31;
