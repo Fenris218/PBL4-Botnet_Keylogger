@@ -237,7 +237,7 @@ Tất cả các task chạy song song, độc lập với nhau
 
 Server sử dụng **kiến trúc đa luồng (multi-threaded)** để xử lý packet từ nhiều client:
 
-1. **Mỗi client = 1 task riêng biệt** (ListenServer.cs line 107)
+1. **Mỗi client = 1 task riêng biệt** (ListenServer.cs line 122)
 2. **Các client xử lý song song**, không ảnh hưởng lẫn nhau
 3. **Packet từ mỗi client được đọc tuần tự**, nhưng **xử lý song song** (có thể không theo thứ tự)
 4. **Thread-safety được đảm bảo** bằng các cấu trúc concurrent (ConcurrentHashSet, SemaphoreSlim, BufferBlock)

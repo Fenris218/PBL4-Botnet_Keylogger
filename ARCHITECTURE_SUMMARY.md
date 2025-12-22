@@ -27,7 +27,7 @@ All tasks run in parallel, independent of each other
 
 | Component | Location | Purpose |
 |-----------|----------|---------|
-| **ConcurrentHashSet** | ListenServer.cs:93 | Thread-safe client list management |
+| **ConcurrentHashSet** | ListenServer.cs:22 | Thread-safe client list declaration and management |
 | **SemaphoreSlim** | ProcessStream.cs:10 | Thread-safe stream read/write |
 | **BufferBlock/ActionBlock** | Client.cs:80-98 | Ordered, thread-safe packet sending |
 
