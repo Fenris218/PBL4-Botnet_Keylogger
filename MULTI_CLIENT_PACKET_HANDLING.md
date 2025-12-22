@@ -11,14 +11,14 @@ Server sử dụng kiến trúc **đa luồng (multi-threaded)** để xử lý 
 ┌─────────────────────────────────────────────────────────┐
 │                    ListenServer                          │
 │                                                          │
-│  Main Loop (line 66-108):                               │
+│  Main Loop (line 70-123):                               │
 │  ┌──────────────────────────────────────────┐           │
 │  │ while (!cancelToken)                     │           │
 │  │ {                                         │           │
-│  │   connection = await AcceptAsync()        │  ◄──────── Chờ kết nối mới
+│  │   connection = await AcceptAsync()        │  ◄──────── Chờ kết nối mới (tuần tự)
 │  │   client = new Client(connection)         │           │
 │  │   _clients.Add(client)                   │           │
-│  │   _ = Task.Run(client.StartConnectionAsync) │  ◄──── Tạo task riêng cho mỗi client
+│  │   _ = Task.Run(client.StartConnectionAsync) │  ◄──── Tạo task riêng (xử lý đồng thời)
 │  │ }                                         │           │
 │  └──────────────────────────────────────────┘           │
 └─────────────────────────────────────────────────────────┘

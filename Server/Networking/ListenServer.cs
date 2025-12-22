@@ -64,7 +64,8 @@ namespace Server.Networking
             _tcpListener = await CreateListenerAsync(new IPEndPoint(IPAddress.Any, Port), token: _cancelTokenSource.Token);//Tạo TCP Listener
             Listening = true;
             
-            // Vòng lặp chính: Chấp nhận kết nối từ nhiều client đồng thời
+            // Vòng lặp chính: Chấp nhận kết nối tuần tự, nhưng xử lý đồng thời
+            // Mỗi kết nối được chấp nhận lần lượt, nhưng ngay sau đó được xử lý trong task riêng
             // Đây là điểm bắt đầu của kiến trúc đa luồng (multi-threaded)
             while (!_cancelTokenSource.Token.IsCancellationRequested)//Vòng lặp chấp nhận kết nối
             {

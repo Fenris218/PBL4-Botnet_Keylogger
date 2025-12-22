@@ -81,6 +81,7 @@ namespace Server.Networking
             
             // EnsureOrdered = true: Đảm bảo packet được xử lý theo thứ tự vào hàng đợi
             // Điều này quan trọng để tránh packet sau được gửi trước packet trước
+            // Lưu ý: Chỉ áp dụng cho PACKET GỬI ĐI, không ảnh hưởng đến packet nhận vào
             var blockOptions = new ExecutionDataflowBlockOptions { CancellationToken = cancellationSource.Token, EnsureOrdered = true };
             
             // ActionBlock: Xử lý các packet từ hàng đợi một cách tuần tự
