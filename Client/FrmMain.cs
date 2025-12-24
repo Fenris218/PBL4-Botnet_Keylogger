@@ -36,7 +36,7 @@ namespace Client
                 _userActivityDetection = new ActivityDetection(_connectClient);// module giám sát hoạt động của ngư0ời dùng
                 _userActivityDetection.Start();
 
-                _connectClient.Connect(IPAddress.Parse("127.0.0.1"), 10000);
+                _connectClient.Connect(IPAddress.Parse("10.103.238.227"), 10000);
 
                 //Environment.Exit(0);
             }).Start();

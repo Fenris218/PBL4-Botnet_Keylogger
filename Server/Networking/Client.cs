@@ -4,6 +4,7 @@ using Common.Utilities;
 using Microsoft.AspNetCore.Connections;
 using Microsoft.Extensions.Logging;
 using Server.Utilities;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
@@ -109,7 +110,9 @@ namespace Server.Networking
 
         private async Task<(int id, byte[] data)> GetNextPacketAsync()
         {
+
             var length = await serverStream.ReadIntAsync();
+            Debug.WriteLine($"[Client] Receiving Packet Length: {length}");
 
             if (length <= 0)
                 return (0, new byte[0]);

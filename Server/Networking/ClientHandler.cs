@@ -61,7 +61,7 @@ namespace Server.Networking
                     case 0x06:
                         break;
                     // System Info
-                    case 0x10:
+                    case 0xca:
                         SystemInformationHandler.Handler(ResponsePacket.Deserialize<SystemInfoPacket>(data));
                         break;
                     // Remote Shell

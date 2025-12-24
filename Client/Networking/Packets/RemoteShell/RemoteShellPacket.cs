@@ -9,7 +9,7 @@ namespace Client.Networking.Packets.RemoteShell
         public override int Id => 0x20;
         public string Command { get; private set; }
         public string Output { get; set; } = string.Empty;
-        public bool IsError { get; set; } = true;
+        public bool IsError { get; set; } = false;
 
         public override void Populate(ProcessStream stream)
         {
